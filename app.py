@@ -18,7 +18,7 @@ def extract_data(csv_file):
     return header, product_data
 
 def clean_data(csv_file):
-    _, product_data = extract_data(csv_file)
+    header, product_data = extract_data(csv_file)
     # clean data
     for product in product_data:
         product[1] = int(product[1].lstrip('$').replace('.', ''))
@@ -27,16 +27,18 @@ def clean_data(csv_file):
         product[3] = date(int(last_updated[2]),
                           int(last_updated[0]),
                           int(last_updated[1]))
-    return product_data
+    return header, product_data
 
-data = clean_data('inventory.csv')
-print(data)
-# transform data
-# with open('clean_inventory.csv', 'w') as csvfile:
-#     inventory_writer = csv.DictWriter(csvfile, fieldnames=header)
-#     inventory_writer.writeheader()
-#     for product in product_data:
-#         inventory_writer.writerow({header[0]: product[0],
-#                                    header[1]: int(product[1]),
-#                                    header[2]: int(product[2]),
-#                                    header[3]: product[3]})
+def transform_data(input_csv_file, output_csv_file='clean_inventory.csv'):
+    header, product_data = clean_data(input_csv_file)
+    # transform data
+    with open(output_csv_file, 'w') as csvfile:
+        inventory_writer = csv.DictWriter(csvfile, fieldnames=header)
+        inventory_writer.writeheader()
+        for product in product_data:
+            inventory_writer.writerow({header[0]: product[0],
+                                       header[1]: product[1],
+                                       header[2]: product[2],
+                                       header[3]: product[3]})
+
+transform_data('inventory.csv')
