@@ -2,6 +2,7 @@ import csv
 from storeinventory.product import Product, db
 from datetime import date
 
+
 def extract_and_clean_data(csv_file):
     # read and extract data
     with open(csv_file, newline='') as csvfile:
@@ -30,6 +31,7 @@ def transform_data(csv_file):
                           header[2]: product[2],
                           header[3]: product[3]})
     return inventory
+
 
 def load_data(product_list):
     # load data from csv into db

@@ -2,6 +2,7 @@ from peewee import *
 
 db = SqliteDatabase('inventory.db')
 
+
 class Product(Model):
     product_id = AutoField(primary_key=True)
     product_name = TextField()
