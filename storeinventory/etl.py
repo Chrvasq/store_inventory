@@ -31,7 +31,8 @@ def transform_data(csv_file):
                           header[3]: product[3]})
     return inventory
 
-def add_data_from_csv(product_list):
+def load_data(product_list):
+    # load data from csv into db
     for product in product_list:
         Product.create(product_name=product['product_name'],
                        product_quantity=product['product_quantity'],
