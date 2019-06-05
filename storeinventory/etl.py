@@ -1,5 +1,5 @@
 import csv
-from storeinventory.product import Product, db
+from .product import Product, db
 from datetime import date
 
 
@@ -17,7 +17,7 @@ def transform_data(csv_file):
     header, product_data = extract_data(csv_file)
     # clean data
     for product in product_data:
-        product[1] = int(product[1].lstrip('$').replace('.', ''))
+        product[1] = int(float(product[1].lstrip('$')) * 100)
         product[2] = int(product[2])
         last_updated = product[3].split('/')
         product[3] = date(int(last_updated[2]),
