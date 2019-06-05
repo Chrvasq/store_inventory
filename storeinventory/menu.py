@@ -1,4 +1,5 @@
-from storeinventory.product import Product
+from .product import Product
+from datetime import date
 
 
 class Menu:
@@ -15,16 +16,21 @@ class Menu:
         print(f'Product Name: {product.product_name}')
         print(f'Quantity: {product.product_quantity}')
         print(f'Price: ${product.product_price / 100:.2f}\n')
-    
+
     def add_product(self):
-        pass
-    
+        self.get_product_input()
+
+        Product.create(product_name=self.product_name,
+                       product_quantity=self.product_quantity,
+                       product_price=self.product_price,
+                       date_updated=date.today())
+
     def backup_database(self):
         pass
-    
+
     def display_menu(self):
         pass
-    
+
     def get_product_input(self):
         prompt_user = True
         while prompt_user:
@@ -36,7 +42,7 @@ class Menu:
                 self.get_product_price()
             else:
                 prompt_user = False
-    
+
     def get_product_name(self):
         try:
             product_name = input('Please enter a product name: ')
@@ -47,7 +53,7 @@ class Menu:
         except ValueError:
             print('You didn\'t enter anything. Please enter a product name.')
             self.get_product_name()
-    
+
     def get_product_quantity(self):
         try:
             quantity = input('Please enter in a quantity: ')
@@ -62,7 +68,7 @@ class Menu:
         except ValueError as error:
             print(error)
             self.get_product_quantity()
-    
+
     def get_product_price(self):
         try:
             price = input('Please enter in a price: ')
@@ -73,11 +79,11 @@ class Menu:
                 raise ValueError(
                     'You didn\'t enter a number. Please enter a number.')
             else:
-                self.product_price = int(price.lstrip('$').replace('.', ''))
+                self.product_price = int(float(price.lstrip('$')) * 100)
+
         except ValueError as error:
             print(error)
             self.get_product_price()
-
 
     def get_menu_input(self):
         pass
