@@ -6,6 +6,9 @@ class Menu:
         self.menu_options = {'v': 'View product by product_id',
                              'a': 'Add a product to the inventory database',
                              'b': 'Backup database to a .CSV file'}
+        self.product_name = None
+        self.product_quantity = None
+        self.product_price = None
 
     def view_product(self, product_id):
         product = Product.get_by_id(product_id)
@@ -21,8 +24,19 @@ class Menu:
     
     def display_menu(self):
         pass
+    
+    def get_product_name(self):
+        try:
+            product_name = input('Please enter a product name: ')
+            if len(product_name) == 0:
+                raise ValueError
+            else:
+                self.product_name = product_name
+        except ValueError:
+            print('You didn\'t enter anything. Please enter a product name.')
+            self.get_product_name()
 
-    def get_user_input(self):
+    def get_menu_input(self):
         pass
 
     def main(self):
