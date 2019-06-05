@@ -25,6 +25,18 @@ class Menu:
     def display_menu(self):
         pass
     
+    def get_product_input(self):
+        prompt_user = True
+        while prompt_user:
+            if not self.product_name:
+                self.get_product_name()
+            if not self.product_quantity:
+                self.get_product_quantity()
+            if not self.product_price:
+                self.get_product_price()
+            else:
+                prompt_user = False
+    
     def get_product_name(self):
         try:
             product_name = input('Please enter a product name: ')
