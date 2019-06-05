@@ -35,6 +35,21 @@ class Menu:
         except ValueError:
             print('You didn\'t enter anything. Please enter a product name.')
             self.get_product_name()
+    
+    def get_product_quantity(self):
+        try:
+            quantity = input('Please enter in a quantity: ')
+            if len(quantity) == 0:
+                raise ValueError(
+                    'You didn\'t enter anything. Please enter a quantity.')
+            if quantity.isalpha():
+                raise ValueError(
+                    'You didn\'t enter a number. Please enter a number.')
+            else:
+                self.product_quantity = int(quantity)
+        except ValueError as error:
+            print(error)
+            self.get_product_quantity()
 
     def get_menu_input(self):
         pass
