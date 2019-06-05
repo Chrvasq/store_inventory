@@ -50,6 +50,22 @@ class Menu:
         except ValueError as error:
             print(error)
             self.get_product_quantity()
+    
+    def get_product_price(self):
+        try:
+            price = input('Please enter in a price: ')
+            if len(price) == 0:
+                raise ValueError(
+                    'You didn\'t enter anything. Please enter a price.')
+            if price.isalpha():
+                raise ValueError(
+                    'You didn\'t enter a number. Please enter a number.')
+            else:
+                self.product_price = int(price.lstrip('$').replace('.', ''))
+        except ValueError as error:
+            print(error)
+            self.get_product_price()
+
 
     def get_menu_input(self):
         pass
