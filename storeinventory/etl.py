@@ -36,7 +36,11 @@ def transform_data(csv_file):
 def load_data(product_list):
     # load data from csv into db
     for product in product_list:
-        Product.create(product_name=product['product_name'],
-                       product_quantity=product['product_quantity'],
+        Product.insert(product_name=product['product_name'],
                        product_price=product['product_price'],
-                       date_updated=product['date_updated'])
+                       product_quantity=product['product_quantity'],
+                       date_updated=product['date_updated']).on_conflict(
+                           conflict_target=[Product.product_name],
+                           preserve=[Product.product_price,
+                                     Product.product_quantity,
+                                     Product.date_updated]).execute()

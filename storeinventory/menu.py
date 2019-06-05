@@ -20,10 +20,14 @@ class Menu:
     def add_product(self):
         self.get_product_input()
 
-        Product.create(product_name=self.product_name,
-                       product_quantity=self.product_quantity,
+        Product.insert(product_name=self.product_name,
                        product_price=self.product_price,
-                       date_updated=date.today())
+                       product_quantity=self.product_quantity,
+                       date_updated=date.today()).on_conflict(
+                           conflict_target=[Product.product_name],
+                           preserve=[Product.product_price,
+                                     Product.product_quantity,
+                                     Product.date_updated]).execute()
 
     def backup_database(self):
         pass

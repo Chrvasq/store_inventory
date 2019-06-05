@@ -4,10 +4,10 @@ db = SqliteDatabase('inventory.db')
 
 
 class Product(Model):
-    product_id = AutoField(primary_key=True)
-    product_name = TextField()
-    product_quantity = IntegerField()
+    product_id = AutoField()
+    product_name = TextField(unique=True)
     product_price = IntegerField()
+    product_quantity = IntegerField()
     date_updated = DateField()
 
     class Meta:
