@@ -1,5 +1,6 @@
 from .product import Product
 from datetime import date
+import csv
 
 
 class Database:
@@ -26,7 +27,7 @@ class Database:
                                      Product.product_quantity,
                                      Product.date_updated]).execute()
     def delete_product(self):
-        # TODO 1
+        # TODO
         pass
 
     def get_product_input(self):
@@ -84,4 +85,17 @@ class Database:
             self.get_product_price()
     
     def backup_database(self):
-        pass
+        with open('db_backup.csv', 'w', newline='') as csvfile:
+            fieldnames = ['product_name',
+                          'product_price',
+                          'product_quantity',
+                          'date_updated']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for product in Product.select().dicts():
+                writer.writerow(
+                    {'product_name': product['product_name'],
+                     'product_price': product['product_price'],
+                     'product_quantity': product['product_quantity'],
+                     'date_updated': product['date_updated']})
