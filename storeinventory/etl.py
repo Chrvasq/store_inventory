@@ -1,5 +1,5 @@
 import csv
-from .product import Product, db
+from .product import Product
 from datetime import date
 
 

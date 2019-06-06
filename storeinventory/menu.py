@@ -1,5 +1,4 @@
-from .database import Database
-from .product import Product
+from .database import Database, Product
 from os import system, name, sys
 
 
