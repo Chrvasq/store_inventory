@@ -29,7 +29,7 @@ class Menu:
         except ValueError:
             print('Invalid choice. Please enter v/a/b/d.')
             return self.get_menu_input()
-    
+
     def get_view_product_input(self):
         try:
             user_input = input('Please enter in a product ID: ')
@@ -44,16 +44,16 @@ class Menu:
                 raise ValueError(
                     'You didn\'t enter a number. Please enter a number.\n')
             # Check for product id membership
-            if int(user_input) not in [
-                product.product_id for product in Product.select()]:
-                    raise ValueError('Product ID not found.\n')
+            if int(user_input) not in [product.product_id for product
+                                       in Product.select()]:
+                raise ValueError('Product ID not found.\n')
             else:
                 self.clear_screen()
                 Database.view_product(user_input)
         except ValueError as error:
             print(error)
             return self.get_view_product_input()
-    
+
     def get_product_input(self):
         product_name = self.get_product_name()
         price = self.get_product_price()
@@ -114,13 +114,13 @@ class Menu:
 
     def main(self, user_input=None):
         active = True
-        if not user_input: # Run the first time app launches
+        if not user_input:  # Run the first time app launches
             Database.connect_db_and_load_data()
             self.clear_screen()
             self.display_menu()
             user_input = self.get_menu_input()
         while active:
-            if  user_input == 'v':
+            if user_input == 'v':
                 self.get_view_product_input()
                 self.display_menu()
                 return self.main(self.get_menu_input())

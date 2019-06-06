@@ -11,7 +11,7 @@ class Database:
         db.create_tables([Product], safe=True)
         load_data(transform_data('./inventory.csv'))
 
-    @classmethod    
+    @classmethod
     def close_db_connection(cls):
         db.close()
 
@@ -22,7 +22,7 @@ class Database:
         print(f'Product Name: {product.product_name}')
         print(f'Quantity: {product.product_quantity}')
         print(f'Price: ${product.product_price / 100:.2f}\n')
-    
+
     @classmethod
     def add_product(cls, product_name, price, quantity):
         Product.insert(product_name=product_name,
@@ -34,8 +34,8 @@ class Database:
                                      Product.product_quantity,
                                      Product.date_updated]).execute()
         print(f'\nProduct added successfully!')
-        print(f'Product: {product_name} '+
-              f'Price:$ {int(price) / 100:.2f} '+
+        print(f'Product: {product_name} ' +
+              f'Price:$ {int(price) / 100:.2f} ' +
               f'Quantity: {quantity}\n')
 
     @classmethod
