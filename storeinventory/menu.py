@@ -1,46 +1,55 @@
 from .database import Database
-from datetime import date
 from .product import Product
+from os import system, name
 
 
 class Menu:
     def __init__(self):
         self.menu_options = {'v': 'View product by product_id',
                              'a': 'Add a product to the inventory database',
-                             'b': 'Backup database to a .CSV file'}
+                             'b': 'Backup database to a .CSV file',
+                             'd': 'Delete a product by product_id',
+                             'q': 'Quit'}
+
+    def clear_screen(self):
+        system('cls' if name == 'nt' else 'clear')
 
     def display_menu(self):
         for key, value in self.menu_options.items():
             print(f'{key}) {value}')
+        print('\n')
 
     def get_menu_input(self):
         try:
-            user_input = input('Please enter v/a/b: ')
-            if user_input not in self.menu_options:
+            user_input = input('Please enter v/a/b/d: ')
+            print('\n')
+            if user_input.lower() not in self.menu_options:
                 raise ValueError
             else:
-                return user_input
+                return user_input.lower()
         except ValueError:
-            print('Invalid choice. Please enter v/a/b.')
+            print('Invalid choice. Please enter v/a/b/d.')
             return self.get_menu_input()
     
     def get_view_product_input(self):
         try:
             user_input = input('Please enter in a product ID: ')
+            print('\n')
             if user_input.isspace():
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a number')
+                    'You didn\'t enter anything. Please enter a number.\n')
             if len(user_input) == 0:
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a number')
+                    'You didn\'t enter anything. Please enter a number.\n')
             if user_input.isalpha():
                 raise ValueError(
-                    'You didn\'t enter a number. Please enter a number.')
+                    'You didn\'t enter a number. Please enter a number.\n')
             # Check for product id membership
             if int(user_input) not in [
                 product.product_id for product in Product.select()]:
-                    raise ValueError('Product ID not found.')
+                    raise ValueError('Product ID not found.\n')
             else:
+                self.clear_screen()
                 Database.view_product(user_input)
         except ValueError as error:
             print(error)
@@ -106,4 +115,11 @@ class Menu:
             return self.get_product_price()
 
     def main(self):
-        pass
+        active = True
+        self.clear_screen()
+        self.display_menu()
+        while active:
+            if self.get_menu_input() == 'v':
+                self.get_view_product_input()
+                self.display_menu()
+
