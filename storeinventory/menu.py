@@ -1,6 +1,6 @@
 from .database import Database
 from .product import Product
-from os import system, name
+from os import system, name, sys
 
 
 class Menu:
@@ -59,8 +59,7 @@ class Menu:
         product_name = self.get_product_name()
         price = self.get_product_price()
         quantity = self.get_product_quantity()
-
-        Database.add_product(product_name, price, quantity)
+        return product_name, price, quantity
 
     def get_product_name(self):
         try:
@@ -114,12 +113,28 @@ class Menu:
             print(error)
             return self.get_product_price()
 
-    def main(self):
+    def main(self, user_input=None):
         active = True
-        self.clear_screen()
-        self.display_menu()
+        if not user_input: # Run the first time app launches
+            Database.connect_db_and_load_data()
+            self.clear_screen()
+            self.display_menu()
+            user_input = self.get_menu_input()
         while active:
-            if self.get_menu_input() == 'v':
+            if  user_input == 'v':
                 self.get_view_product_input()
                 self.display_menu()
-
+                return self.main(self.get_menu_input())
+            if user_input == 'a':
+                product_name, price, quantity = self.get_product_input()
+                Database.add_product(product_name, price, quantity)
+                self.display_menu()
+                return self.main(self.get_menu_input())
+            if user_input == 'b':
+                Database.backup_database()
+                self.display_menu()
+                return self.main(self.get_menu_input())
+            if user_input == 'q':
+                self.clear_screen()
+                Database.close_db_connection()
+                sys.exit()
