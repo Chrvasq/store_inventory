@@ -6,10 +6,14 @@ import csv
 
 class Database:
     @classmethod
-    def connect_db_and_load_data(self):
+    def connect_db_and_load_data(cls):
         db.connect()
         db.create_tables([Product], safe=True)
         load_data(transform_data('./inventory.csv'))
+
+    @classmethod    
+    def close_db_connection(cls):
+        db.close()
 
     @classmethod
     def view_product(cls, product_id):
@@ -29,6 +33,11 @@ class Database:
                            preserve=[Product.product_price,
                                      Product.product_quantity,
                                      Product.date_updated]).execute()
+        print(f'\nProduct added successfully!')
+        print(f'Product: {product_name} '+
+              f'Price:$ {int(price) / 100:.2f} '+
+              f'Quantity: {quantity}\n')
+
     @classmethod
     def delete_product(self):
         # TODO
@@ -50,3 +59,4 @@ class Database:
                      'product_price': product['product_price'],
                      'product_quantity': product['product_quantity'],
                      'date_updated': product['date_updated']})
+        print('Database backup complete! File was saved as "db_backup.csv".\n')
