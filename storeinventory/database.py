@@ -1,4 +1,5 @@
-from .product import Product
+from .product import Product, db
+from .etl import extract_data, transform_data, load_data
 from datetime import date
 import csv
 
@@ -8,7 +9,12 @@ class Database:
         self.product_name = None
         self.product_quantity = None
         self.product_price = None
-    
+
+    def connect_db_and_load_data(self):
+        db.connect()
+        db.create_tables([Product], safe=True)
+        load_data(transform_data('./inventory.csv'))
+
     def view_product(self, product_id):
         product = Product.get_by_id(product_id)
         print(f'Product Name: {product.product_name}')
@@ -26,6 +32,7 @@ class Database:
                            preserve=[Product.product_price,
                                      Product.product_quantity,
                                      Product.date_updated]).execute()
+
     def delete_product(self):
         # TODO
         pass
@@ -83,7 +90,7 @@ class Database:
         except ValueError as error:
             print(error)
             self.get_product_price()
-    
+
     def backup_database(self):
         with open('db_backup.csv', 'w', newline='') as csvfile:
             fieldnames = ['product_name',
