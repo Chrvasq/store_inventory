@@ -35,7 +35,7 @@ class Database:
                                      Product.date_updated]).execute()
         print(f'\nProduct added successfully!')
         print(f'Product: {product_name} ' +
-              f'Price:$ {int(price) / 100:.2f} ' +
+              f'Price: ${int(price) / 100:.2f} ' +
               f'Quantity: {quantity}\n')
 
     @classmethod
