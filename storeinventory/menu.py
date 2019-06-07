@@ -43,15 +43,20 @@ class Menu:
         try:
             user_input = input('Please enter in a product ID: ')
             print('\n')
+            if len(user_input) == 0:
+                raise ValueError(
+                    YELLOW +
+                    'You didn\'t enter anything. Please enter a number.\n' +
+                    END)
             if user_input.isspace():
                 raise ValueError(
                     YELLOW +
                     'You didn\'t enter anything. Please enter a number.\n' +
                     END)
-            if len(user_input) == 0:
+            if not user_input.isalnum():
                 raise ValueError(
                     YELLOW +
-                    'You didn\'t enter anything. Please enter a number.\n' +
+                    'You didn\'t enter a number. Please enter a number.\n' +
                     END)
             if user_input.isalpha():
                 raise ValueError(
@@ -96,14 +101,19 @@ class Menu:
         try:
             quantity = input('Please enter in a quantity: ')
             print('\n')
-            if quantity.isspace():
-                raise ValueError(
-                    YELLOW + 'You didn\'t enter anything. Please enter a '
-                    'quantity.\n' + END)
             if len(quantity) == 0:
                 raise ValueError(
                     YELLOW + 'You didn\'t enter anything. Please enter a '
                     'quantity.\n' + END)
+            if quantity.isspace():
+                raise ValueError(
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'quantity.\n' + END)
+            if not quantity.isalnum():
+                raise ValueError(
+                    YELLOW +
+                    'You didn\'t enter a number. Please enter a number.\n' +
+                    END)
             if quantity.isalpha():
                 raise ValueError(
                     YELLOW + 'You didn\'t enter a number. Please enter a '
@@ -118,14 +128,19 @@ class Menu:
         try:
             price = input('Please enter in a price: ')
             print('\n')
-            if price.isspace():
-                raise ValueError(
-                    YELLOW + 'You didn\'t enter anything. Please enter a '
-                    'price.\n' + END)
             if len(price) == 0:
                 raise ValueError(
                     YELLOW + 'You didn\'t enter anything. Please enter a '
                     'price.\n' + END)
+            if price.isspace():
+                raise ValueError(
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'price.\n' + END)
+            if not price.isalnum() and '.' not in price:
+                raise ValueError(
+                    YELLOW +
+                    'You didn\'t enter a number. Please enter a number.\n' +
+                    END)
             if price.isalpha():
                 raise ValueError(
                     YELLOW + 'You didn\'t enter a number. Please enter a '
