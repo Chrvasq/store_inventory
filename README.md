@@ -5,6 +5,7 @@ including options to view products, add products and backup the database to
 a .csv file.
 
 # Requirements
+- Python 3.7
 - Peewee 3.9.4
 
 # Installation
