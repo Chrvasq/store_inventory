@@ -7,7 +7,6 @@ class Menu:
         self.menu_options = {'v': 'View product by product_id',
                              'a': 'Add a product to the inventory database',
                              'b': 'Backup database to a .CSV file',
-                             'd': 'Delete a product by product_id',
                              'q': 'Quit'}
 
     def clear_screen(self):

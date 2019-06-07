@@ -39,11 +39,6 @@ class Database:
               f'Quantity: {quantity}\n')
 
     @classmethod
-    def delete_product(self):
-        # TODO
-        pass
-
-    @classmethod
     def backup_database(cls):
         with open('db_backup.csv', 'w', newline='') as csvfile:
             fieldnames = ['product_name',
