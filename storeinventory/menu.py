@@ -1,6 +1,9 @@
 from .database import Database, Product
 from os import system, name, sys
 
+YELLOW = '\033[1;93m'  # Bold and yellow
+END = '\033[0m'  # Reset formatting
+
 
 class Menu:
     def __init__(self):
@@ -8,6 +11,13 @@ class Menu:
                              'a': 'Add a product to the inventory database',
                              'b': 'Backup database to a .CSV file',
                              'q': 'Quit'}
+
+    def welcome_message(self):
+        welcome_message = ' Store Inventory '
+        print('#' * (len(welcome_message) + 2))
+        print(f'#{welcome_message}#')
+        print('#' * (len(welcome_message) + 2))
+        print('\n')
 
     def clear_screen(self):
         system('cls' if name == 'nt' else 'clear')
@@ -19,14 +29,14 @@ class Menu:
 
     def get_menu_input(self):
         try:
-            user_input = input('Please enter v/a/b/d: ')
+            user_input = input('Please enter v/a/b/q: ')
             print('\n')
             if user_input.lower() not in self.menu_options:
                 raise ValueError
             else:
                 return user_input.lower()
         except ValueError:
-            print('Invalid choice. Please enter v/a/b/d.')
+            print(YELLOW + 'Invalid choice. Please enter v/a/b/q.\n' + END)
             return self.get_menu_input()
 
     def get_view_product_input(self):
@@ -35,17 +45,22 @@ class Menu:
             print('\n')
             if user_input.isspace():
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a number.\n')
+                    YELLOW +
+                    'You didn\'t enter anything. Please enter a number.\n' +
+                    END)
             if len(user_input) == 0:
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a number.\n')
+                    YELLOW +
+                    'You didn\'t enter anything. Please enter a number.\n' +
+                    END)
             if user_input.isalpha():
                 raise ValueError(
-                    'You didn\'t enter a number. Please enter a number.\n')
+                    YELLOW + 'You didn\'t enter a number. Please enter a '
+                    'number.\n' + END)
             # Check for product id membership
             if int(user_input) not in [product.product_id for product
                                        in Product.select()]:
-                raise ValueError('Product ID not found.\n')
+                raise ValueError(YELLOW + 'Product ID not found.\n' + END)
             else:
                 self.clear_screen()
                 Database.view_product(user_input)
@@ -62,12 +77,15 @@ class Menu:
     def get_product_name(self):
         try:
             product_name = input('Please enter a product name: ')
+            print('\n')
             if product_name.isspace():
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a product name.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'product name.\n' + END)
             if len(product_name) == 0:
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a product name.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'product name.\n' + END)
             else:
                 return product_name
         except ValueError as error:
@@ -77,15 +95,19 @@ class Menu:
     def get_product_quantity(self):
         try:
             quantity = input('Please enter in a quantity: ')
+            print('\n')
             if quantity.isspace():
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a quantity.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'quantity.\n' + END)
             if len(quantity) == 0:
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a quantity.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'quantity.\n' + END)
             if quantity.isalpha():
                 raise ValueError(
-                    'You didn\'t enter a number. Please enter a number.')
+                    YELLOW + 'You didn\'t enter a number. Please enter a '
+                    'number.\n' + END)
             else:
                 return int(quantity)
         except ValueError as error:
@@ -95,15 +117,19 @@ class Menu:
     def get_product_price(self):
         try:
             price = input('Please enter in a price: ')
+            print('\n')
             if price.isspace():
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a price.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'price.\n' + END)
             if len(price) == 0:
                 raise ValueError(
-                    'You didn\'t enter anything. Please enter a price.')
+                    YELLOW + 'You didn\'t enter anything. Please enter a '
+                    'price.\n' + END)
             if price.isalpha():
                 raise ValueError(
-                    'You didn\'t enter a number. Please enter a number.')
+                    YELLOW + 'You didn\'t enter a number. Please enter a '
+                    'number.\n' + END)
             else:
                 return int(float(price.lstrip('$')) * 100)
 
@@ -116,6 +142,7 @@ class Menu:
         if not user_input:  # Run the first time app launches
             Database.connect_db_and_load_data()
             self.clear_screen()
+            self.welcome_message()
             self.display_menu()
             user_input = self.get_menu_input()
         while active:
