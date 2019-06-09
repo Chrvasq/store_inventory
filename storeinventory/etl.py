@@ -1,5 +1,5 @@
 import csv
-from .product import Product
+from .product import Product, EXCLUDED
 from datetime import date
 
 
@@ -43,4 +43,7 @@ def load_data(product_list):
                            conflict_target=[Product.product_name],
                            preserve=[Product.product_price,
                                      Product.product_quantity,
-                                     Product.date_updated]).execute()
+                                     Product.date_updated],
+                            where=(
+                                EXCLUDED.date_updated > Product.date_updated
+                                )).execute()
