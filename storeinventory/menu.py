@@ -13,6 +13,7 @@ class Menu:
                              'q': 'Quit'}
 
     def welcome_message(self):
+        """Print out welcome message"""
         welcome_message = ' Store Inventory '
         print('#' * (len(welcome_message) + 2))
         print(f'#{welcome_message}#')
@@ -23,11 +24,20 @@ class Menu:
         system('cls' if name == 'nt' else 'clear')
 
     def display_menu(self):
+        """Displays menu options to user"""
         for key, value in self.menu_options.items():
             print(f'{key}) {value}')
         print('\n')
 
     def get_menu_input(self):
+        """Prompts user to input menu selection
+
+        Raises:
+            ValueError: User choice not in available menu choice list
+
+        Returns:
+            str -- User's menu choice
+        """
         try:
             user_input = input('Please enter v/a/b/q: ')
             print('\n')
@@ -40,6 +50,18 @@ class Menu:
             return self.get_menu_input()
 
     def get_view_product_input(self):
+        """Prompts user for product_id to view
+
+        Raises:
+            ValueError: Handle no input from user
+            ValueError: Handle just space input from user
+            ValueError: Handle non-numeric/alpha character input e.g ($%#)
+            ValueError: Handle alpha character input from user
+            ValueError: Handle invalid product_id
+
+        Returns:
+            object -- Product object based on user_input as argument
+        """
         try:
             user_input = input('Please enter in a product ID: ')
             print('\n')
@@ -74,12 +96,27 @@ class Menu:
             return self.get_view_product_input()
 
     def get_product_input(self):
+        """Assign product_name, product_price and product_quantity to variables
+
+        Returns:
+            str, int, int -- product_name(str), product_price(int),
+                             product_quantity(int)
+        """
         product_name = self.get_product_name()
         price = self.get_product_price()
         quantity = self.get_product_quantity()
         return product_name, price, quantity
 
     def get_product_name(self):
+        """Prompt user to input product name
+
+        Raises:
+            ValueError: Handle just space input from user
+            ValueError: Handle no input from user
+
+        Returns:
+            str -- Product name
+        """
         try:
             product_name = input('Please enter a product name: ')
             print('\n')
@@ -98,6 +135,17 @@ class Menu:
             return self.get_product_name()
 
     def get_product_quantity(self):
+        """Prompt user to input product quantity
+
+        Raises:
+            ValueError: Handle no input from user
+            ValueError: Handle just space input from user
+            ValueError: Handle non-numeric/alpha character input e.g ($%#)
+            ValueError: Handle alpha character input from user
+
+        Returns:
+            int -- Quantity
+        """
         try:
             quantity = input('Please enter in a quantity: ')
             print('\n')
@@ -125,6 +173,17 @@ class Menu:
             return self.get_product_quantity()
 
     def get_product_price(self):
+        """Prompt user to input product price
+
+        Raises:
+            ValueError: Handle no input from user
+            ValueError: Handle just space input from user
+            ValueError: Handle non-numeric/alpha character input e.g ($%#)
+            ValueError: Handle alpha character input from user
+
+        Returns:
+            int -- Price
+        """
         try:
             price = input('Please enter in a price: ')
             print('\n')
@@ -147,12 +206,20 @@ class Menu:
                     'number.\n' + END)
             else:
                 return int(float(price.lstrip('$')) * 100)
-
         except ValueError as error:
             print(error)
             return self.get_product_price()
 
     def main(self, user_input=None):
+        """Connects to database, loads data from csv file and handles flow of
+           the application
+
+        Keyword Arguments:
+            user_input {str} -- [description] (default: {None})
+
+        Returns:
+            function -- Returns main function with user_input as argument
+        """
         active = True
         if not user_input:  # Run the first time app launches
             Database.connect_db_and_load_data()
