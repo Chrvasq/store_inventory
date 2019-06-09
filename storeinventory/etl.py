@@ -44,6 +44,6 @@ def load_data(product_list):
                            preserve=[Product.product_price,
                                      Product.product_quantity,
                                      Product.date_updated],
-                            where=(
+                           where=(
                                 EXCLUDED.date_updated > Product.date_updated
                                 )).execute()
