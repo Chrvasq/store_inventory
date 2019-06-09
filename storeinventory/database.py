@@ -7,16 +7,23 @@ import csv
 class Database:
     @classmethod
     def connect_db_and_load_data(cls):
+        """Connects to database, creates tables and loads data from csv"""
         db.connect()
         db.create_tables([Product], safe=True)
         load_data(transform_data('./inventory.csv'))
 
     @classmethod
     def close_db_connection(cls):
+        """Closes connection to database"""
         db.close()
 
     @classmethod
     def view_product(cls, product_id):
+        """Prints out product information to user
+
+        Arguments:
+            product_id {int} -- product_id user inputs
+        """
         product = Product.get_by_id(product_id)
         print(f'Product ID: {product.product_id}')
         print(f'Product Name: {product.product_name}')
@@ -25,6 +32,16 @@ class Database:
 
     @classmethod
     def add_product(cls, product_name, price, quantity):
+        """Adds a new product to the database based on user input. Conflict
+        handling will check if the product name already exists. If it
+        already exists, the price, quantity and date_updated values will update
+        the existing product.
+
+        Arguments:
+            product_name {str} -- product name user inputs
+            price {int} -- product price user inputs
+            quantity {int} -- product quantity user inputs
+        """
         Product.insert(product_name=product_name,
                        product_price=price,
                        product_quantity=quantity,
@@ -40,6 +57,7 @@ class Database:
 
     @classmethod
     def backup_database(cls):
+        """Writes database values with header to a csv file"""
         with open('db_backup.csv', 'w', newline='') as csvfile:
             fieldnames = ['product_name',
                           'product_price',
