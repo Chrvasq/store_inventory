@@ -2,4 +2,7 @@
 from storeinventory.menu import Menu
 
 if __name__ == "__main__":
-    Menu().main()
+    try:
+        Menu().main()
+    except KeyboardInterrupt:
+        print('\nExiting application.\n')
