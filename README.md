@@ -7,6 +7,7 @@ a .csv file.
 # Requirements
 - Python 3.7
 - Peewee 3.9.4
+- Sqlite3 3.24.0 or higher
 
 # Installation
 You will need to install pipenv if you don't already have it installed.
@@ -14,7 +15,8 @@ You will need to install pipenv if you don't already have it installed.
 You can find more information on how to install pipenv
 [here](https://pypi.org/project/pipenv/).
 
-Install dependencies and run the app.
+Install virtualenv and dependencies via pipenv and run the app by running the commands below after
+cloning the project.
 
 ```sh
 $ cd store_inventory
