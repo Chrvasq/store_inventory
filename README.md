@@ -12,7 +12,7 @@ a .csv file.
 You will need to install pipenv if you don't already have it installed.
 
 You can find more information on how to install pipenv
-[here](https://pypi.org/project/pipenv/)
+[here](https://pypi.org/project/pipenv/).
 
 Install dependencies and run the app.
 
