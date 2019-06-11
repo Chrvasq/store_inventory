@@ -17,9 +17,14 @@ def transform_data(csv_file):
     header, product_data = extract_data(csv_file)
     # clean data
     for product in product_data:
+        # strip '$' and transform string price to float, convert to
+        # cents and transform to int
         product[1] = int(float(product[1].lstrip('$')) * 100)
+        # transform string quantity to int
         product[2] = int(product[2])
+        # split string date on '/' and store as list
         last_updated = product[3].split('/')
+        # transform string date to date type
         product[3] = date(int(last_updated[2]),
                           int(last_updated[0]),
                           int(last_updated[1]))
@@ -34,7 +39,7 @@ def transform_data(csv_file):
 
 
 def load_data(product_list):
-    # load data from csv into db
+    # load each product from csv into db
     for product in product_list:
         Product.insert(product_name=product['product_name'],
                        product_price=product['product_price'],
@@ -44,6 +49,9 @@ def load_data(product_list):
                            preserve=[Product.product_price,
                                      Product.product_quantity,
                                      Product.date_updated],
+                           # restrict updating preserved data if
+                           # preserved date is newer than current
+                           # Product date
                            where=(
                                 EXCLUDED.date_updated > Product.date_updated
                                 )).execute()
