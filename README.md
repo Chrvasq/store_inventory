@@ -15,7 +15,7 @@ You will need to install pipenv if you don't already have it installed.
 You can find more information on how to install pipenv
 [here](https://pypi.org/project/pipenv/).
 
-Install virtualenv and dependencies via pipenv and run the app by running the commands below after
+Install dependencies via pipenv and run the app by following the commands below after
 cloning the project.
 
 ```sh
